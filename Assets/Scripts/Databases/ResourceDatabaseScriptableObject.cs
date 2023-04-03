@@ -8,4 +8,5 @@ public class ResourceDatabaseScriptableObject : ScriptableObject
     public LevelTile _tilePrefab;
     public Snake _snakePrefab;
     public SnakeBodyPart _snakeBodyPartPrefab;
+    public Apple _apple;
 }

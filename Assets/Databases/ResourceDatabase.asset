@@ -15,3 +15,4 @@ MonoBehaviour:
   _tilePrefab: {fileID: 2938994492115685310, guid: bf9e4fd7836f4af44a94065b177e3a0c, type: 3}
   _snakePrefab: {fileID: 8005028338121919883, guid: f8d513f3a41ca7d4aa90f1a759732143, type: 3}
   _snakeBodyPartPrefab: {fileID: 1884296059061055416, guid: e5802dda49d71d14e91a707dd6504d0a, type: 3}
+  _apple: {fileID: 5901870226264791605, guid: e0924c06069809b439d5d5c8982275c6, type: 3}

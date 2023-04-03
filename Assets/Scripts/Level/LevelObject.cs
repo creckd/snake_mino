@@ -40,9 +40,12 @@ public class LevelObject : MonoBehaviour
         GameController.Instance.OnTick += OnTick;
     }
 
-    protected virtual void DestroyObject()
+    protected virtual void OnDestroy()
     {
-        GameController.Instance.OnTick -= OnTick;
+        if(GameController.Instance != null)
+          GameController.Instance.OnTick -= OnTick;
+        if (_currentlyOnTile)
+            _currentlyOnTile.FreeTile(this);
     }
 
     protected virtual void OnTick()

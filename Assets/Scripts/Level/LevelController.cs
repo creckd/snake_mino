@@ -24,6 +24,8 @@ public class LevelController : MonoBehaviour
         _data = new LevelData(config._levelWidth,config._levelHeight);
 
         _levelRoot = InstantiateLevel(_data, Databases.Instance.GetResourceDatabase()._tilePrefab, config._gridSizeInWorldSpace);
+        SpawnAppleAtRandomEmptyTile();
+
     }
 
     public LevelTile GetTileAtPos(int x, int y)
@@ -56,5 +58,24 @@ public class LevelController : MonoBehaviour
         }
 
         return levelRoot;
+    }
+
+    public void SpawnAppleAtRandomEmptyTile()
+    {
+        //Find an empty tile
+
+        int x = UnityEngine.Random.Range(0, _data.GetWidth());
+        int y = UnityEngine.Random.Range(0, _data.GetHeight());
+        LevelTile tile = GetTileAtPos(x, y);
+
+        while (!tile.IsTotallyFree())
+        {
+            x = UnityEngine.Random.Range(0, _data.GetWidth());
+            y = UnityEngine.Random.Range(0, _data.GetHeight());
+            tile = GetTileAtPos(x, y);
+        }
+
+        Apple apple = Instantiate(Databases.Instance.GetResourceDatabase()._apple, _levelRoot.transform);
+        apple.Position = tile.GetPosition();
     }
 }

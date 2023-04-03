@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5eeb47638f8ea9e408973babde8b378d, type: 3}
   m_Name: ConfigDatabase
   m_EditorClassIdentifier: 
-  _tickFrequency: 2
+  _tickFrequency: 0.1
   _levelHeight: 20
   _levelWidth: 30
   _startingCharacterSize: 3
@@ -21,4 +21,8 @@ MonoBehaviour:
   - _headPosition: {x: 15, y: 5}
     _spawnOrientationType: 1
   - _headPosition: {x: 15, y: 15}
+    _spawnOrientationType: 0
+  - _headPosition: {x: 4, y: 7}
+    _spawnOrientationType: 1
+  - _headPosition: {x: 23, y: 23}
     _spawnOrientationType: 0

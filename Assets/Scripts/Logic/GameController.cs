@@ -23,6 +23,9 @@ public class GameController : MonoBehaviour
 
     // Tick happens in intervals defined in config, issued by GameController, all LevelObjects subscribe to Tick event by default
     public Action OnTick = delegate { };
+    public Action<EGameState> OnGameStateChange = delegate { };
+    public Action<LevelObject, LevelObject> OnCollision = delegate { };
+    public Action<Player, EDirection> OnPlayerInput = delegate { };
 
     private EGameState _currentGamestate;
     private float _tickFrequency;
@@ -44,11 +47,16 @@ public class GameController : MonoBehaviour
         // Wait until all players ready before starting the game...
         PlayerManager.Instance.Initialize();
         PlayerManager.Instance.OnEveryoneReady += () => { StartGame(config); };
+
+        OnCollision += OnCollisionHandler;
     }
 
     public void StartGame(ConfigDatabaseScriptableObject config)
     {
         _currentGamestate = EGameState.InGame;
+        OnGameStateChange(_currentGamestate);
+
+        OnPlayerInput += OnPlayerInputHandler;
 
         // Create world
 
@@ -62,7 +70,7 @@ public class GameController : MonoBehaviour
             SnakeSpawnPoint[] defaultSpawnPoints = config._snakeSpawnPoints;
 
             Player player = players[i];
-            Snake newSnake = SnakeManager.Instance.CreateSnake(defaultSpawnPoints[UnityEngine.Random.Range(0, defaultSpawnPoints.Length)], config._startingCharacterSize);
+            Snake newSnake = SnakeManager.Instance.CreateSnake(defaultSpawnPoints[i], config._startingCharacterSize);
 
             _playerToSnake.Add(player, newSnake);
         }
@@ -77,12 +85,43 @@ public class GameController : MonoBehaviour
 
     private void Update()
     {
-        _deltaTimeSinceLastTick += Time.deltaTime;
-
-        if (_deltaTimeSinceLastTick >= _tickFrequency)
+        if (_currentGamestate == EGameState.InGame)
         {
-            _deltaTimeSinceLastTick = 0f;
-            Tick();
+            _deltaTimeSinceLastTick += Time.deltaTime;
+
+            if (_deltaTimeSinceLastTick >= _tickFrequency)
+            {
+                _deltaTimeSinceLastTick = 0f;
+                Tick();
+            }
+        }
+    }
+
+    private void OnPlayerInputHandler(Player p, EDirection dir)
+    {
+        if (_playerToSnake.ContainsKey(p))
+            _playerToSnake[p].ChangeDirections(dir);
+    }
+    
+    // Meaning that first initiated a collision with second
+    private void OnCollisionHandler(LevelObject first, LevelObject second)
+    {
+        if (first is SnakeBodyPart && second is Apple)
+        {
+            Destroy(second.gameObject);
+            (first as SnakeBodyPart).GetOwnerSnake().Grow();
+            LevelController.Instance.SpawnAppleAtRandomEmptyTile();
+        }
+        if (first is Apple && second is SnakeBodyPart)
+        {
+            Destroy(first.gameObject);
+            (second as SnakeBodyPart).GetOwnerSnake().Grow();
+            LevelController.Instance.SpawnAppleAtRandomEmptyTile();
+        }
+
+        if (first is SnakeBodyPart && second is SnakeBodyPart)
+        {
+            (first as SnakeBodyPart).GetOwnerSnake().Die();
         }
     }
 }

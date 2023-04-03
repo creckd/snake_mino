@@ -26,12 +26,6 @@ public class PlayerManager : MonoBehaviour
 
     }
 
-    private void Start()
-    {
-        Guid firstPlayer = AddPlayer("Dendi");
-        SetPlayerReady(firstPlayer, true);
-    }
-
     private void ReadyCheck()
     {
         bool allReady = true;
@@ -47,14 +41,21 @@ public class PlayerManager : MonoBehaviour
             OnEveryoneReady();
     }
 
-    private Guid AddPlayer(string name)
+    public Player AddPlayer(string name, EInputLayout controlLayout)
     {
-        Player player = new Player(name);
+        Player player = new Player(name, controlLayout);
 
         _currentPlayers.Add(player);
         _readyCheck.Add(player, false);
 
-        return player._playerID;
+        return player;
+    }
+
+    public void RemovePlayer(Player player)
+    {
+        _currentPlayers.Remove(player);
+        _readyCheck.Remove(player);
+        player.OnDestroy();
     }
 
     private void SetPlayerReady(Guid playerID, bool isReady)

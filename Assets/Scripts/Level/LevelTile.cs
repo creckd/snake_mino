@@ -7,7 +7,7 @@ public class LevelTile : MonoBehaviour
     private int _x = -1;
     private int _y = -1;
 
-    private List<LevelObject> _levelObjectsOnTheTile = new List<LevelObject>();
+    private LevelObject _levelObjectOnThisTile = null;
 
     public void SetPosition(Vector2Int position)
     {
@@ -15,13 +15,30 @@ public class LevelTile : MonoBehaviour
         _y = position.y;
     }
 
+    public Vector2Int GetPosition()
+    {
+        return new Vector2Int(_x, _y);
+    }
+
     public void UseTile(LevelObject usingObject)
     {
-        _levelObjectsOnTheTile.Add(usingObject);
+        // Collision
+        if (_levelObjectOnThisTile != null)
+        {
+            GameController.Instance.OnCollision(usingObject, _levelObjectOnThisTile);
+            return;
+        }
+
+        _levelObjectOnThisTile = usingObject;
     }
 
     public void FreeTile(LevelObject freeingObject)
     {
-        _levelObjectsOnTheTile.Remove(freeingObject);
+        _levelObjectOnThisTile = null;
+    }
+
+    public bool IsTotallyFree()
+    {
+        return _levelObjectOnThisTile == null;
     }
 }

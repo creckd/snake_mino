@@ -91,6 +91,7 @@ public class Snake : MonoBehaviour
             bodyPart.Position = tailPosition;
             _bodyParts.AddLast(bodyPart);
 
+            _currentSize++;
             _applesEatenQueue--;
         }
 

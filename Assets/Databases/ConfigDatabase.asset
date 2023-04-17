@@ -12,11 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5eeb47638f8ea9e408973babde8b378d, type: 3}
   m_Name: ConfigDatabase
   m_EditorClassIdentifier: 
-  _tickFrequency: 0.1
+  _tickFrequency: 0.15
   _levelHeight: 20
   _levelWidth: 30
   _startingCharacterSize: 3
   _gridSizeInWorldSpace: 1
+  snakeColorPalette:
+  - {r: 0.13000941, g: 1, b: 0, a: 1}
+  - {r: 0.54931164, g: 0, b: 1, a: 1}
+  - {r: 1, g: 0, b: 0.36303616, a: 1}
+  - {r: 0, g: 1, b: 0.60924816, a: 1}
+  - {r: 0.9970193, g: 1, b: 0, a: 1}
+  - {r: 1, g: 0, b: 0.8303461, a: 1}
+  - {r: 0, g: 0.25328112, b: 1, a: 1}
+  - {r: 0, g: 1, b: 0.84729433, a: 1}
+  - {r: 1, g: 0.04314117, b: 0, a: 1}
+  - {r: 1, g: 0.529058, b: 0, a: 1}
   _snakeSpawnPoints:
   - _headPosition: {x: 15, y: 5}
     _spawnOrientationType: 1
@@ -24,5 +35,5 @@ MonoBehaviour:
     _spawnOrientationType: 0
   - _headPosition: {x: 4, y: 7}
     _spawnOrientationType: 1
-  - _headPosition: {x: 23, y: 23}
+  - _headPosition: {x: 23, y: 10}
     _spawnOrientationType: 0
